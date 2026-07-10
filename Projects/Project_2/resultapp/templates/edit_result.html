@@ -1,0 +1,69 @@
+{% extends 'admin_base.html' %}
+{% block title %}Edit Result{% endblock %}
+{% block admin_content %}
+<h2 class="mb-4"><i class="fas fa-edit text-primary"></i> Edit Result — {{ result.student.full_name }}</h2>
+<div class="card shadow p-4">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            Class: <strong>{{ result.student_class.class_name }}</strong>
+        </div>
+        <div class="col-md-4">
+            Roll Number: <strong>{{ result.student.roll_number }}</strong>
+        </div>
+        <div class="col-md-4">
+            Student: <strong>{{ result.student.full_name }}</strong>
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="form-label">Student <small class="text-muted">(cannot be changed)</small></label>
+                {{ form.student }}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Class <small class="text-muted">(cannot be changed)</small></label>
+                {{ form.student_class }}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Exam Name</label>
+                {{ form.exam_name }}
+                {% if form.exam_name.errors %}<div class="text-danger">{{ form.exam_name.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-4 mt-3">
+                <label class="form-label">Exam Date</label>
+                {{ form.exam_date }}
+                {% if form.exam_date.errors %}<div class="text-danger">{{ form.exam_date.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        <h5 class="mt-4 mb-3"><i class="fas fa-book me-2"></i> Subjects and Marks</h5>
+        {{ formset.management_form }}
+        <div class="row">
+            {% for detail_form in formset %}
+            <div class="col-md-6 mb-3">
+                <div class="card p-3">
+                    {{ detail_form.id }}
+                    <label class="form-label">Subject</label>
+                    {{ detail_form.subject }}
+                    <label class="form-label mt-2">Marks Obtained</label>
+                    {{ detail_form.marks_obtained }}
+                    <label class="form-label mt-2">Max Marks</label>
+                    {{ detail_form.max_marks }}
+                    {% if detail_form.DELETE %}
+                    <div class="form-check mt-2">
+                        {{ detail_form.DELETE }}
+                        <label class="form-check-label">Remove this subject</label>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-success mt-3"><i class="fas fa-save me-1"></i> Update Result</button>
+        <a href="{% url 'manage-result' %}" class="btn btn-secondary mt-3">Cancel</a>
+    </form>
+</div>
+{% endblock %}

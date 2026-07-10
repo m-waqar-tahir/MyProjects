@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}{{ notice.title }}{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="mb-3 text-primary"><i class="fas fa-bullhorn me-2"></i>{{ notice.title }}</h3>
+                    <p><strong>Posting Date:</strong> {{ notice.created_at|date:"d M Y" }}</p>
+                    <hr>
+                    <p>{{ notice.description }}</p>
+                    <a href="{% url 'index' %}" class="btn btn-secondary mt-3"><i class="fas fa-arrow-left me-1"></i> Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<header class="py-5 bg-dark text-white">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold"><i class="fas fa-home"></i> Student Result Management System</h1>
+        <p class="lead">Manage and view results efficiently</p>
+    </div>
+</header>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4 class="text-center mb-3"><i class="fas fa-search text-primary"></i> Check Your Result</h4>
+                        <form method="post" action="{% url 'search-result' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ search_form.roll_number }}
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100"><i class="fas fa-search me-1"></i> Search Result</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4"><i class="fas fa-bullhorn text-primary"></i> Notice Board</h2>
+        <div class="border p-3 rounded bg-light" onmouseover="document.getElementById('scrollNotice').stop()" onmouseout="document.getElementById('scrollNotice').start()">
+            <marquee id="scrollNotice" direction="up" scrollamount="2">
+                <ul class="list-unstyled">
+                    {% for notice in notices %}
+                    <li class="mb-2">
+                        <i class="fas fa-angle-right me-2"></i>
+                        <a href="{% url 'notice-detail' notice.id %}" target="_blank" class="text-decoration-none">{{ notice.title }}</a>
+                        <small class="text-muted">({{ notice.created_at|date:"d M Y" }})</small>
+                    </li>
+                    {% empty %}
+                    <li>No notices posted yet</li>
+                    {% endfor %}
+                </ul>
+            </marquee>
+        </div>
+    </div>
+</section>
+{% endblock %}

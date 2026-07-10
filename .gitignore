@@ -1,9 +1,1 @@
-venv/
-env/
-__pycache__/
-*.pyc
-*.pyo
-db.sqlite3
-.env
-*.log
-.DS_Store
+Projects/Project_3/E-Commerce Purchases Data Analysis Project/

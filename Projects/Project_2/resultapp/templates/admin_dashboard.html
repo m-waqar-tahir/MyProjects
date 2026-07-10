@@ -1,0 +1,84 @@
+{% extends 'admin_base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block admin_content %}
+<h2 class="mb-4"><i class="fas fa-tachometer-alt text-primary"></i> Dashboard</h2>
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-primary shadow">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-chalkboard me-2"></i> Total Classes</h5>
+                <h2>{{ total_classes }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-success shadow">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-book me-2"></i> Total Subjects</h5>
+                <h2>{{ total_subjects }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-info shadow">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-user-graduate me-2"></i> Total Students</h5>
+                <h2>{{ total_students }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-warning shadow">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-file-alt me-2"></i> Total Results</h5>
+                <h2>{{ total_results }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-secondary shadow">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-bullhorn me-2"></i> Total Notices</h5>
+                <h2>{{ total_notices }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 class="mt-4 mb-3"><i class="fas fa-clock text-primary"></i> Recent Results</h4>
+<table class="table table-bordered bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th>Student</th>
+            <th>Class</th>
+            <th>Exam</th>
+            <th>Percentage</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in recent_results %}
+        <tr>
+            <td>{{ result.student.full_name }}</td>
+            <td>{{ result.student_class.class_name }}</td>
+            <td>{{ result.exam_name }}</td>
+            <td>{{ result.percentage }}%</td>
+            <td>
+                {% if result.result_status == 'Pass' %}
+                <span class="badge bg-success">Pass</span>
+                {% else %}
+                <span class="badge bg-danger">Fail</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="text-center">No results yet</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 bg-dark text-white min-vh-100 py-4">
+            <h5 class="text-center mb-4"><i class="fas fa-user-shield"></i> Admin Panel</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white {% if request.resolver_match.url_name == 'admin-dashboard' %}bg-primary rounded{% endif %}" href="{% url 'admin-dashboard' %}">
+                        <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white {% if 'class' in request.resolver_match.url_name %}bg-primary rounded{% endif %}" href="{% url 'manage-class' %}">
+                        <i class="fas fa-chalkboard me-2"></i> Manage Classes
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white {% if 'subject' in request.resolver_match.url_name %}bg-primary rounded{% endif %}" href="{% url 'manage-subject' %}">
+                        <i class="fas fa-book me-2"></i> Manage Subjects
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white {% if 'student' in request.resolver_match.url_name %}bg-primary rounded{% endif %}" href="{% url 'manage-student' %}">
+                        <i class="fas fa-user-graduate me-2"></i> Manage Students
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white {% if 'result' in request.resolver_match.url_name %}bg-primary rounded{% endif %}" href="{% url 'manage-result' %}">
+                        <i class="fas fa-file-alt me-2"></i> Manage Results
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white {% if 'notice' in request.resolver_match.url_name %}bg-primary rounded{% endif %}" href="{% url 'manage-notice' %}">
+                        <i class="fas fa-bullhorn me-2"></i> Manage Notices
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white {% if request.resolver_match.url_name == 'change-password' %}bg-primary rounded{% endif %}" href="{% url 'change-password' %}">
+                        <i class="fas fa-key me-2"></i> Change Password
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white" href="{% url 'admin-logout' %}">
+                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9 col-lg-10 py-4">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% block admin_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

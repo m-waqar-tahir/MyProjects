@@ -1,0 +1,28 @@
+{% extends 'admin_base.html' %}
+{% block title %}Add Subject{% endblock %}
+{% block admin_content %}
+<h2 class="mb-4"><i class="fas fa-plus-circle text-primary"></i> Add Subject</h2>
+<div class="card shadow">
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Subject Name</label>
+                {{ form.subject_name }}
+                {% if form.subject_name.errors %}
+                <div class="text-danger">{{ form.subject_name.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Class</label>
+                {{ form.student_class }}
+                {% if form.student_class.errors %}
+                <div class="text-danger">{{ form.student_class.errors }}</div>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i> Save</button>
+            <a href="{% url 'manage-subject' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

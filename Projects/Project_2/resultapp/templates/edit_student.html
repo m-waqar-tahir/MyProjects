@@ -1,0 +1,80 @@
+{% extends 'admin_base.html' %}
+{% block title %}Edit Student{% endblock %}
+{% block admin_content %}
+<h2 class="mb-4"><i class="fas fa-edit text-primary"></i> Edit Student Info</h2>
+<div class="card shadow">
+    <div class="card-body">
+        {% if student.profile_picture %}
+        <img src="{{ student.profile_picture.url }}" alt="{{ student.full_name }}" width="80" height="80" class="rounded-circle mb-3">
+        {% endif %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Roll Number</label>
+                    {{ form.roll_number }}
+                    {% if form.roll_number.errors %}<div class="text-danger">{{ form.roll_number.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Class <small class="text-muted">(cannot be changed)</small></label>
+                    {{ form.student_class }}
+                    <small class="text-muted">To move a student to a new class, deactivate this record and add a new one.</small>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">First Name</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}<div class="text-danger">{{ form.first_name.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Last Name</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}<div class="text-danger">{{ form.last_name.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Gender</label>
+                    {{ form.gender }}
+                    {% if form.gender.errors %}<div class="text-danger">{{ form.gender.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Date of Birth</label>
+                    {{ form.date_of_birth }}
+                    {% if form.date_of_birth.errors %}<div class="text-danger">{{ form.date_of_birth.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Guardian Name</label>
+                    {{ form.guardian_name }}
+                    {% if form.guardian_name.errors %}<div class="text-danger">{{ form.guardian_name.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Contact Number</label>
+                    {{ form.contact_number }}
+                    {% if form.contact_number.errors %}<div class="text-danger">{{ form.contact_number.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Address</label>
+                    {{ form.address }}
+                    {% if form.address.errors %}<div class="text-danger">{{ form.address.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Profile Picture</label>
+                    {{ form.profile_picture }}
+                    {% if form.profile_picture.errors %}<div class="text-danger">{{ form.profile_picture.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Registration Date <small class="text-muted">(read only)</small></label>
+                    <input type="text" class="form-control bg-light" value="{{ student.created_at|date:'d M Y' }}" readonly>
+                </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <div class="form-check mt-4">
+                        {{ form.is_active }}
+                        <label class="form-check-label ms-1">Active Student</label>
+                        {% if form.is_active.errors %}<div class="text-danger">{{ form.is_active.errors }}</div>{% endif %}
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i> Update</button>
+            <a href="{% url 'manage-student' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

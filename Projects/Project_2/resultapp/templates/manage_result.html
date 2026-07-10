@@ -1,0 +1,71 @@
+{% extends 'admin_base.html' %}
+{% block title %}Manage Results{% endblock %}
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-file-alt text-primary"></i> Manage Results</h2>
+    <a href="{% url 'add-result' %}" class="btn btn-primary"><i class="fas fa-plus me-1"></i> Add Result</a>
+</div>
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-4">
+        <select name="class_id" class="form-select" onchange="this.form.submit()">
+            <option value="">All Classes</option>
+            {% for c in classes %}
+            <option value="{{ c.id }}" {% if selected_class == c.id|stringformat:"s" %}selected{% endif %}>{{ c.class_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</form>
+<table class="table table-bordered table-hover bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th>Sr No</th>
+            <th>Roll No</th>
+            <th>Student</th>
+            <th>Class</th>
+            <th>Student Status</th>
+            <th>Exam</th>
+            <th>Percentage</th>
+            <th>Grade</th>
+            <th>Result Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in results %}
+        <tr>
+            <td>{{ forloop.counter0|add:results.start_index }}</td>
+            <td>{{ result.student.roll_number }}</td>
+            <td>{{ result.student.full_name }}</td>
+            <td>{{ result.student_class.class_name }}</td>
+            <td>
+                {% if result.student.is_active %}
+                <span class="badge bg-success">Active</span>
+                {% else %}
+                <span class="badge bg-secondary">Inactive</span>
+                {% endif %}
+            </td>
+            <td>{{ result.exam_name }}</td>
+            <td>{{ result.percentage }}%</td>
+            <td>{{ result.grade }}</td>
+            <td>
+                {% if result.result_status == 'Pass' %}
+                <span class="badge bg-success">Pass</span>
+                {% else %}
+                <span class="badge bg-danger">Fail</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'view-result' result.id %}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
+                <a href="{% url 'edit-result' result.id %}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'delete-result' result.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this result')"><i class="fas fa-trash"></i></a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="10" class="text-center">No results found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% include 'includes/pagination.html' with page_obj=results extra_qs=extra_qs %}
+{% endblock %}

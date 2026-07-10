@@ -1,0 +1,73 @@
+{% extends 'admin_base.html' %}
+{% block title %}Add Student{% endblock %}
+{% block admin_content %}
+<h2 class="mb-4"><i class="fas fa-plus-circle text-primary"></i> Add Student</h2>
+<div class="card shadow">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Roll Number</label>
+                    {{ form.roll_number }}
+                    {% if form.roll_number.errors %}<div class="text-danger">{{ form.roll_number.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Class</label>
+                    {{ form.student_class }}
+                    {% if form.student_class.errors %}<div class="text-danger">{{ form.student_class.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">First Name</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}<div class="text-danger">{{ form.first_name.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Last Name</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}<div class="text-danger">{{ form.last_name.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Gender</label>
+                    {{ form.gender }}
+                    {% if form.gender.errors %}<div class="text-danger">{{ form.gender.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Date of Birth</label>
+                    {{ form.date_of_birth }}
+                    {% if form.date_of_birth.errors %}<div class="text-danger">{{ form.date_of_birth.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Guardian Name</label>
+                    {{ form.guardian_name }}
+                    {% if form.guardian_name.errors %}<div class="text-danger">{{ form.guardian_name.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Contact Number</label>
+                    {{ form.contact_number }}
+                    {% if form.contact_number.errors %}<div class="text-danger">{{ form.contact_number.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Address</label>
+                    {{ form.address }}
+                    {% if form.address.errors %}<div class="text-danger">{{ form.address.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Profile Picture</label>
+                    {{ form.profile_picture }}
+                    {% if form.profile_picture.errors %}<div class="text-danger">{{ form.profile_picture.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <div class="form-check mt-4">
+                        {{ form.is_active }}
+                        <label class="form-check-label ms-1">Active Student</label>
+                        {% if form.is_active.errors %}<div class="text-danger">{{ form.is_active.errors }}</div>{% endif %}
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i> Save</button>
+            <a href="{% url 'manage-student' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

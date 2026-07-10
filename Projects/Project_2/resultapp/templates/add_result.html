@@ -1,0 +1,78 @@
+{% extends 'admin_base.html' %}
+{% block title %}Declare Result{% endblock %}
+{% block admin_content %}
+<h2 class="mb-4"><i class="fas fa-plus-circle text-primary"></i> Declare Result</h2>
+<div class="card shadow">
+    <div class="card-body">
+        <form method="post" id="addResultForm">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Class</label>
+                    <select name="student_class" id="class_id" class="form-select" required>
+                        <option value="">Select Class</option>
+                        {% for c in classes %}
+                        <option value="{{ c.id }}">{{ c.class_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Student</label>
+                    <select name="student" id="student_id" class="form-select" required>
+                        <option value="">Select Student</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Exam Name</label>
+                    <input type="text" name="exam_name" class="form-control" placeholder="Enter exam name" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Exam Date</label>
+                    <input type="date" name="exam_date" class="form-control" required>
+                </div>
+            </div>
+
+            <div id="subject_fields"></div>
+
+            <button type="submit" class="btn btn-success mt-3"><i class="fas fa-save me-1"></i> Save</button>
+            <a href="{% url 'manage-result' %}" class="btn btn-secondary mt-3">Cancel</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('class_id').addEventListener('change', function () {
+        const classId = this.value;
+
+        const studentSelect = document.getElementById('student_id');
+        const subjectFields = document.getElementById('subject_fields');
+        studentSelect.innerHTML = '<option value="">Select Student</option>';
+        subjectFields.innerHTML = '';
+
+        if (!classId) {
+            return;
+        }
+
+        fetch(`/get-students-subjects/?class_id=${classId}`)
+            .then((res) => res.json())
+            .then((data) => {
+                data.students.forEach((stu) => {
+                    const opt = document.createElement('option');
+                    opt.value = stu.id;
+                    opt.text = `${stu.name} (${stu.roll_number})`;
+                    studentSelect.appendChild(opt);
+                });
+
+                subjectFields.innerHTML = '<h5 class="mt-4 mb-3">Subjects and Marks</h5>';
+
+                data.subjects.forEach((sub) => {
+                    const div = document.createElement('div');
+                    div.className = 'mb-3';
+                    div.innerHTML = `<label class="form-label">${sub.subject_name}</label>
+                        <input type="number" name="marks_${sub.id}" class="form-control" placeholder="Enter marks obtained" min="0" step="0.01" required>`;
+                    subjectFields.appendChild(div);
+                });
+            });
+    });
+</script>
+{% endblock %}
